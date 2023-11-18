@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="page-heading">
+    <h3>Edit Links</h3>
+</div>
+<div class="page-content">
+    <div class="row">
+        <div class="col-12">
+            {% include 'alert.html' %}
+        </div>
+        <div class="col-12 col-md-6">
+            <form method="post">{% csrf_token %}
+                <div class="form-group">
+                    <label>Title:</label>
+                    <input type="text" class="form-control"  value="{{ form.title.value }}" name="{{ form.title.html_name }}" placeholder="Title">
+                </div>
+                <div class="form-group">
+                    <label >Long URL:</label>
+                    <input type="text" class="form-control" value="{{ form.long_url.value }}" name="{{ form.long_url.html_name  }}" placeholder="Long URL">
+                </div>
+                <div class="form-group">
+                    <label name="category" >Category:</label>
+                    <select class="form-select" name="category">
+                        {% for topic in request.user.topics.all %}
+                            <option value="{{topic.id}}">{{ topic.category_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-sm btn-primary float-end">Update Short URL</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

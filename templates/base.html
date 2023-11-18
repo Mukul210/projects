@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title%} Dashboard - DevLink {% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/vendors/iconly/bold.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/vendors/perfect-scrollbar/perfect-scrollbar.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/bootstrap-icons/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.svg' %}" type="image/x-icon">
+</head>
+
+<body>
+
+<div id="app">
+    <div id="sidebar" class="active">
+        <div class="sidebar-wrapper active">
+            <div class="sidebar-header">
+                <div class="d-flex justify-content-between">
+                    <div class="logo">
+                        <a href="{% url 'dashboard' %}">DevLink</a>
+                        <br />
+                        <small style="font-size:10px">Shorten URL and Bookmark your favourite link.</small>
+                    </div>
+                    <div class="toggler">
+                        <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-menu">
+                <ul class="menu">
+                    <li class="sidebar-title">Menu</li>
+
+                    <li class="sidebar-item active ">
+                        <a href="{% url 'dashboard' %}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item  has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-stack"></i>
+                            <span>Topic Operations</span>
+                        </a>
+                        <ul class="submenu ">
+                            <li class="submenu-item {% if '/topic/add/' == request.path %}active{% endif %}">
+                                <a href="{% url 'add_topic' %}">Add Topic</a>
+                            </li>
+                            <li class="submenu-item {% if '/topic/' == request.path %}active{% endif %}">
+                                <a href="{% url 'all_topics' %}">All Topics</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sidebar-item  has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-collection-fill"></i>
+                            <span>Short Urls</span>
+                        </a>
+
+                        <ul class="submenu ">
+                            {% for topic in request.user.topics.all %}
+                            <li class="submenu-item ">
+                                <a href="{% url 'short_links' topic.slug %}">{{ topic.category_name }} ({{ topic.short_links.count }})</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li class="sidebar-item  has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-stack"></i>
+                            <span>Settings</span>
+                        </a>
+                        <ul class="submenu ">
+                            <li class="submenu-item {% if '/topic/add/' == request.path %}active{% endif %}">
+                                <a href="{% url 'change_password' %}">Change Password</a>
+                            </li>
+                            <li class="submenu-item {% if '/topic/' == request.path %}active{% endif %}">
+                                <a href="{% url 'edit_profile' %}">Profile Settings</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sidebar-item  ">
+                        <a href="{% url 'logout' %}" class='sidebar-link'>
+                            <i class="bi bi-cloud-arrow-up-fill"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+        </div>
+    </div>
+    <div id="main">
+        <header class="mb-3">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+        </header>
+
+        {% block content %}
+        {% endblock %}
+
+        <footer>
+
+        </footer>
+    </div>
+</div>
+
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="{% static 'assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+
+<script src="{% static 'assets/js/main.js' %}"></script>
+{% endblock %}
+</body>
+
+</html>

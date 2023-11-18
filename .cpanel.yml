@@ -1,0 +1,27 @@
+# https://www.phusionpassenger.com/library/admin/apache/restart_app.html#restart-txt
+#deployment:
+#  tasks:
+#    - export DEPLOYPATH=/home/example/public_html/
+#    - /bin/cp -a * $DEPLOYPATH
+
+
+deployment:
+      tasks:
+        - export DEPLOYPATH=/home2/zvblyszk/Devlink # Add /<app_folder> if required
+        - /bin/cp /home2/zvblyszk/repositories/devlinkk/* -R $DEPLOYPATH   #copy specific file from source sub folder
+        - /bin/mv $DEPLOYPATH/urlshort/settings_copy.py $DEPLOYPATH/urlshort/settings.py
+        - /bin/mv $DEPLOYPATH/urlshort/passenger_wsgi.py $DEPLOYPATH/passenger_wsgi.py
+        - touch /home2/zvblyszk/Devlink/tmp/restart.txt
+        #- /bin/cp /home2/zvblyszk/tipsnq -r $DEPLOYPATH                 #Copy specific file to destination from root
+        #- source /home2/zvblyszk/virtualenv/tipsnq/3.8/bin/activate && cd /home2/zvblyszk/tipsnq
+        #- python -m pip install --upgrade pip
+        #- python -m pip install psycopg2-binary
+        #- python -m pip install -r requirements.txt
+        #- python manage.py collectstatic
+        #- python manage.py migrate
+        # - passenger-config restart-app $DEPLOYPATH
+        #- /bin/mv $DEPLOYPATH/tipsnq/settings_copy.py $DEPLOYPATH/settings.py
+        #- /bin/cp /<sub_folder>/<file_name> $DEPLOYPATH   #copy specific file from source sub folder
+        #- /bin cp * $DEPLOYPATH                           #copy all from root
+        #- /bin cp /<sub_folder>/* $DEPLOYPATH             #copy all from sub folder root
+        #- /bin/cp -r * $DEPLOYPATH                        #copy all recursively to $DEPLOYPATH

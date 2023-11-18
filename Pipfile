@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+asgiref = "==3.4.1"
+sqlparse = "==0.4.2"
+tzdata = "==2021.5"
+mysql-connector-python = "==8.0.26"
+Django = "==4.0"
+Pillow = "==8.4.0"
+requests = "*"
+django-cleanup = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"

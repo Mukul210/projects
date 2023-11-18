@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+<div class="page-heading">
+    <h3>Profile Statistics</h3>
+</div>
+<div class="page-content">
+    <section class="row">
+        <div class="col-12 col-lg-9">
+            <div class="row">
+                <div class="col-6 col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body px-3 py-4-5">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="stats-icon purple">
+                                        <i class="iconly-boldShow"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="text-muted font-semibold">Link Views</h6>
+                                    <h6 class="font-extrabold mb-0">{{ visits.num }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body px-3 py-4-5">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="stats-icon blue">
+                                        <i class="iconly-boldBookmark"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="text-muted font-semibold">Topics</h6>
+                                    <h6 class="font-extrabold mb-0">{{ topics }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body px-3 py-4-5">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="stats-icon green">
+                                        <i class="iconly-boldAdd-User"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="text-muted font-semibold">Links</h6>
+                                    <h6 class="font-extrabold mb-0">{{ links }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body px-3 py-4-5">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="stats-icon red">
+                                        <i class="iconly-boldProfile"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="text-muted font-semibold">Total User</h6>
+                                    <h6 class="font-extrabold mb-0">{{ users }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                {% include 'alert.html' %}
+
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+
+                        </div>
+                        <div class="card-body">
+                            {% if request.user.topics.count > 0 %}
+                            <form method="post">{% csrf_token %}
+                                <div class="form-group">
+                                    <label>Title:</label>
+                                    <input type="text" class="form-control"  name="{{ form.title.html_name }}" placeholder="Title">
+                                </div>
+                                <div class="form-group">
+                                    <label>Long URL:</label>
+                                    <input type="text" class="form-control" name="{{ form.long_url.html_name }}" placeholder="Long URL">
+                                </div>
+                                <div class="form-group">
+                                    <label >Category:</label>
+                                    <select class="form-select" name="category">
+                                        {% for topic in request.user.topics.all %}
+                                        <option value="{{ topic.id }}">{{ topic.category_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn btn-sm btn-primary float-end">Create Short URL</button>
+                            </form>
+                            {% else %}
+                            <h1> First <a href="{% url 'add_topic' %}">Create</a> a topic. </h1>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    {% if new_url %}
+
+                    <div class="mx-auto text-center mt-5">
+                        <h2 class="text-danger">Your shortened Url</h2>
+                        <p>You can copy the Link below and share it with your friends</p>
+                        <p class=""><input type="url" class="form-control-lg" value="{{new_url}}"/></p>
+                        <p><span class="text-danger">Previous URL:</span> {{long_url}}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-3">
+            <div class="card">
+                <div class="card-body py-4 px-5">
+                    <div class="d-flex align-items-center">
+                        <div class="avatar avatar-xl">
+                            {% if request.user.userprofile.profile_picture %}
+
+                            <img src="{{ request.user.userprofile.profile_picture.url }}" alt="Face 1">
+                            {% else%}
+                            <img src="{% static 'assets/images/faces/1.jpg' %}" alt="Face 1">
+                            {% endif %}
+                        </div>
+                        <div class="ms-3 name">
+                            <h5 class="font-bold">{{ request.user.full_name }}</h5>
+                            <h6 class="text-muted mb-0">@{{ request.user.username }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+{% endblock %}

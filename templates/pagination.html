@@ -1,0 +1,24 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-primary pagination-sm">
+        <li class="page-item">
+            <a class="page-link" href="?page=1">
+                <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+            </a>
+        </li>
+        {% for i in short_links.paginator.page_range %}
+            {% if short_links.number == i %}
+                <li class="page-item active"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% else%}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if short_links.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ short_links.paginator.num_pages }}">
+                <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
